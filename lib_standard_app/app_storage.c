@@ -48,6 +48,8 @@ STATIC int32_t app_storage_is_initalized(void)
     else {
         status = APP_STORAGE_ERR_INVALID_HEADER;
         // A fresh install is all zeros, an initialized storage never is past its tag
+        // (struct_version is never 0 once set). The data is not scanned: damage that zeroes
+        // the tag, the CRC and the whole header but leaves data behind reads as a first start.
         if ((app_storage.crc != 0) || (app_storage.header.size != 0)
             || (app_storage.header.struct_version != 0) || (app_storage.header.properties != 0)
             || (app_storage.header.data_version != 0)) {
